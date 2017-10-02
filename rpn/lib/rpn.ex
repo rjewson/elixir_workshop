@@ -6,18 +6,31 @@ defmodule Rpn do
 
   def push(pid, v) do
     Agent.update(pid, fn(x) -> 
-      cond do
-        v == :+ -> 
+      case {v} do
+        {:+} -> 
           [s | [ f | t]] = x
           [ f+s | t]
-        v == :- -> 
+        {:-} -> 
           [s | [ f | t]] = x
           [ f-s | t]
-        v == :x -> 
+        {:x} -> 
           [s | [ f | t]] = x
           [ f*s | t]
-        true -> [ v | x ]
+        {_} ->
+          [ v | x ]
       end
+      # cond do
+      #   v == :+ -> 
+      #     [s | [ f | t]] = x
+      #     [ f+s | t]
+      #   v == :- -> 
+      #     [s | [ f | t]] = x
+      #     [ f-s | t]
+      #   v == :x -> 
+      #     [s | [ f | t]] = x
+      #     [ f*s | t]
+      #   true -> [ v | x ]
+      # end
       # end
     end)
   end
